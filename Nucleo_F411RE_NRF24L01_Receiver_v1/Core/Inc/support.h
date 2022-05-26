@@ -14,18 +14,22 @@ extern SPI_HandleTypeDef hspi3;
 
 static inline void nRF24_CE_L() {
     HAL_GPIO_WritePin(NRF_CE_GPIO_Port, NRF_CE_Pin, GPIO_PIN_RESET);
+    HAL_Delay(2);
 }
 
 static inline void nRF24_CE_H() {
     HAL_GPIO_WritePin(NRF_CE_GPIO_Port, NRF_CE_Pin, GPIO_PIN_SET);
+    HAL_Delay(2);
 }
 
 static inline void nRF24_CSN_L() {
     HAL_GPIO_WritePin(NRF_CSN_GPIO_Port, NRF_CSN_Pin, GPIO_PIN_RESET);
+    HAL_Delay(2);
 }
 
 static inline void nRF24_CSN_H() {
     HAL_GPIO_WritePin(NRF_CSN_GPIO_Port, NRF_CSN_Pin, GPIO_PIN_SET);
+    HAL_Delay(2);
 }
 
 

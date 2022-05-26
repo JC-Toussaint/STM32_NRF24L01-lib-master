@@ -129,6 +129,8 @@ int main(void)
       Error_Handler();
     }
 
+  HAL_Delay(1000);
+
   runRadio();
 
   /* USER CODE END 2 */
