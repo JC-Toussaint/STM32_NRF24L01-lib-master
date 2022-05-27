@@ -1,7 +1,9 @@
+#include <main.h>
 #include <memory.h>
 #include <stdio.h>
 #include "support.h"
 #include "nrf24.h"
+#include <i2c_HD44780.h>
 
 //
 // Created by ilia.motornyi on 13-Dec-18.
@@ -817,10 +819,13 @@ int runRadio(void) {
         // Put the transceiver to the RX mode
     nRF24_CE_H();
 
+    lcd_clear_display();
+    lcd_home();
 
     // The main loop
 // #pragma clang diagnostic push
 // #pragma clang diagnostic ignored "-Wmissing-noreturn"
+    uint8_t nrow=1;
     while (1) {
         //
         // Constantly poll the status of the RX FIFO and get a payload if FIFO is not empty
@@ -858,6 +863,13 @@ int runRadio(void) {
             }
 
             printf("distance %lu\n", fh.u32);
+
+#ifdef HD44780
+            snprintf((char*) str, 20, "distance %lu", fh.u32);
+            lcd_locate(nrow++, 1);
+            lcd_print_string ((char*)str);
+            if (nrow>4) nrow=1;
+#endif
         }
     }
 // #pragma clang diagnostic pop
