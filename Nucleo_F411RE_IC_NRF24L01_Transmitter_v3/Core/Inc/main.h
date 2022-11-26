@@ -57,7 +57,8 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
 
-float getFrequency(void);
+float CH1_getFrequency(void);
+float CH2_getFrequency(void);
 
 /* USER CODE END EFP */
 

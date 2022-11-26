@@ -185,19 +185,18 @@ int runRadio(void) {
 
     // RX/TX disabled
     nRF24_CE_L();
-    HAL_Delay(1000);
+	Delay_ms(100);
 
     // Configure the nRF24L01+
     UART_SendStr("nRF24L01+ check: ");
 // #pragma clang diagnostic push
 // #pragma clang diagnostic ignored "-Wmissing-noreturn"
-    if (!nRF24_Check()) {
-        UART_SendStr("FAIL\r\n");
-        while (1) {
-            Toggle_LED();
-            Delay_ms(50);
-        }
-    }
+	while (!nRF24_Check()) { // try indefinitely
+		UART_SendStr("FAIL\r\n");
+		Toggle_LED();
+		Delay_ms(50);
+	}
+
 // #pragma clang diagnostic pop
     UART_SendStr("OK\r\n");
 

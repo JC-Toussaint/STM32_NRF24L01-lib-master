@@ -56,6 +56,12 @@ uint32_t CH1_captures[2];
 volatile uint8_t  CH1_captureDone = 0;
 volatile uint16_t uh_CH1_CaptureIndex = 0;
 volatile uint32_t CH1_diffCapture = 0;
+
+uint32_t CH2_captures[2];
+volatile uint8_t  CH2_captureDone = 0;
+volatile uint16_t uh_CH2_CaptureIndex = 0;
+volatile uint32_t CH2_diffCapture = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -124,11 +130,14 @@ int main(void)
 	if (HAL_OK != HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1) )
 		Error_Handler();
 
+	if (HAL_OK != HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_2) )
+		Error_Handler();
+
 	// Start PWM
 	if ( HAL_OK != HAL_TIM_PWM_Start (&htim11, TIM_CHANNEL_1) )
 		Error_Handler();
 
-  runRadio();
+  //runRadio();
 
   /* USER CODE END 2 */
 
@@ -139,7 +148,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		float freq_in=getFrequency();
+		float freq_in=CH2_getFrequency();
 		printf("freq %f Hz\n", freq_in);
   }
   /* USER CODE END 3 */
@@ -276,6 +285,10 @@ static void MX_TIM2_Init(void)
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -441,15 +454,46 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 			CH1_captureDone=1;
 		}
 	}
+
+	if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2){
+		if(uh_CH2_CaptureIndex == 0){
+			/* Get the 1st Input Capture value */
+			CH2_captures[0] = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_2);
+			uh_CH2_CaptureIndex = 1;
+		}
+		else if(uh_CH2_CaptureIndex == 1){
+			/* Get the 2nd Input Capture value */
+			CH2_captures[1] = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_2);
+
+			/* Capture computation */
+			if (CH2_captures[1] >= CH2_captures[0])
+				CH2_diffCapture = CH2_captures[1] - CH2_captures[0];
+			else
+				CH2_diffCapture = ((htim->Instance->ARR - CH2_captures[0]) + CH2_captures[1]) + 1;
+
+			uh_CH2_CaptureIndex = 0;
+			CH2_captureDone=1;
+		}
+	}
 }
 
-float getFrequency(){
+float CH1_getFrequency(){
 	CH1_captureDone=0;
 
 	while(!CH1_captureDone) {}
 	/* Frequency computation: for this example TIMx (TIM2) is clocked by APB1Clk */
 	float frequency = HAL_RCC_GetPCLK2Freq()/ (htim2.Instance->PSC + 1.0);
 	frequency = frequency / (float) CH1_diffCapture;
+	return frequency;
+}
+
+float CH2_getFrequency(){
+	CH2_captureDone=0;
+
+	while(!CH2_captureDone) {}
+	/* Frequency computation: for this example TIMx (TIM2) is clocked by APB1Clk */
+	float frequency = HAL_RCC_GetPCLK2Freq()/ (htim2.Instance->PSC + 1.0);
+	frequency = frequency / (float) CH2_diffCapture;
 	return frequency;
 }
 
