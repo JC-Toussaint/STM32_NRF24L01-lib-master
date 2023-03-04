@@ -45,7 +45,7 @@ static inline uint8_t nRF24_LL_RW(uint8_t data) {
 static inline void Delay_ms(uint32_t ms) { HAL_Delay(ms); }
 
 #elif USE_FULL_LL_DRIVER
-#define NRF_SPI SPI3
+#define NRF_SPI SPI2
 
 static inline void nRF24_CE_L() {
     LL_GPIO_ResetOutputPin(NRF_CE_GPIO_Port, NRF_CE_Pin);
