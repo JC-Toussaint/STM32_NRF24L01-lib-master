@@ -1065,6 +1065,6 @@ int runRadio(void) {
     }
 
 
-#endif // DEMO_RX_ESB_ACK_PL
+#endif // DEMO_TX_ESB_ACK_PL
 
 }

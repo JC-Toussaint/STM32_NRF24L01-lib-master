@@ -837,7 +837,7 @@ int runRadio(void) {
     }
 // #pragma clang diagnostic pop
 
-#endif // DEMO_RX_SINGLE_ESB
+#endif // DEMO_RX_ESB_ACK_PL
 
 /***************************************************************************/
 
@@ -1066,6 +1066,6 @@ int runRadio(void) {
     }
 
 
-#endif // DEMO_RX_ESB_ACK_PL
+#endif // DEMO_TX_ESB_ACK_PL
 
 }
