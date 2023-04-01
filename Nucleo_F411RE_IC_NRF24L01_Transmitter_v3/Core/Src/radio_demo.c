@@ -14,6 +14,8 @@ typedef union {
 } FloatHex;
 
 #define HEX_CHARS      "0123456789ABCDEF"
+#define CHANNEL_NUMBER  (40)  /* integer in the range [0, 120) */
+#define nRF24_RATE      nRF24_DR_2Mbps /* nRF24_DR_250kbps, nRF24_DR_1Mbps or nRF24_DR_2Mbps */
 
 #ifdef USE_HAL_DRIVER
 
@@ -218,8 +220,8 @@ int runRadio(void) {
 	// This is simple receiver with one RX pipe:
 	//   - pipe#1 address: '0xE7 0x1C 0xE3'
 	//   - payload: 5 bytes
-	//   - RF channel: 115 (2515MHz)
-	//   - data rate: 250kbps (minimum possible, to increase reception reliability)
+	//   - RF channel: CHANNEL_NUMBER (2400MHz + CHANNEL_NUMBER MHz)
+	//   - data rate : nRF24_RATE
 	//   - CRC scheme: 2 byte
 
     // The transmitter sends a 5-byte packets to the address '0xE7 0x1C 0xE3' without Auto-ACK (ShockBurst disabled)
@@ -228,10 +230,10 @@ int runRadio(void) {
     nRF24_DisableAA(0xFF);
 
     // Set RF channel
-    nRF24_SetRFChannel(115);
+	nRF24_SetRFChannel(CHANNEL_NUMBER);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_250kbps);
+    nRF24_SetDataRate(nRF24_RATE);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -291,8 +293,8 @@ int runRadio(void) {
     //   - pipe#1 payload: 5 bytes
     //   - pipe#4 address: '0xE7 0x1C 0xE6' (this is pipe#1 address with different last byte)
     //   - pipe#4 payload: 32 bytes (the maximum payload length)
-	//   - RF channel: 115 (2515MHz)
-	//   - data rate: 250kbps (minimum possible, to increase reception reliability)
+	//   - RF channel: CHANNEL_NUMBER (2400MHz + CHANNEL_NUMBER MHz)
+	//   - data rate : nRF24_RATE
 	//   - CRC scheme: 2 byte
 
     // The transmitter sends packets of different length to the three different logical addresses,
@@ -302,10 +304,10 @@ int runRadio(void) {
     nRF24_DisableAA(0xFF);
 
     // Set RF channel
-    nRF24_SetRFChannel(115);
+    nRF24_SetRFChannel(CHANNEL_NUMBER);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_250kbps);
+    nRF24_SetDataRate(nRF24_RATE);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -371,10 +373,10 @@ int runRadio(void) {
 	// This part is to receive data packets from the old solar-powered temperature sensor
 
     // Set RF channel
-    nRF24_SetRFChannel(110);
+    nRF24_SetRFChannel(CHANNEL_NUMBER);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_1Mbps);
+    nRF24_SetDataRate(nRF24_RATE);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -498,8 +500,8 @@ int runRadio(void) {
 	// This is simple transmitter (to one logic address):
 	//   - TX address: '0xE7 0x1C 0xE3'
 	//   - payload: 5 bytes
-	//   - RF channel: 115 (2515MHz)
-	//   - data rate: 250kbps (minimum possible, to increase reception reliability)
+	//   - RF channel: CHANNEL_NUMBER (2400MHz + CHANNEL_NUMBER MHz)
+	//   - data rate : nRF24_RATE
 	//   - CRC scheme: 2 byte
 
     // The transmitter sends a 5-byte packets to the address '0xE7 0x1C 0xE3' without Auto-ACK (ShockBurst disabled)
@@ -508,10 +510,10 @@ int runRadio(void) {
     nRF24_DisableAA(0xFF);
 
     // Set RF channel
-    nRF24_SetRFChannel(115);
+    nRF24_SetRFChannel(CHANNEL_NUMBER);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_250kbps);
+    nRF24_SetDataRate(nRF24_RATE);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -584,8 +586,8 @@ int runRadio(void) {
     //       'WBC', 11 bytes
     //       '0xE7 0x1C 0xE3', 5 bytes
     //       '0xE7 0x1C 0xE6', 32 bytes
-	//   - RF channel: 115 (2515MHz)
-	//   - data rate: 250kbps (minimum possible, to increase reception reliability)
+	//   - RF channel: CHANNEL_NUMBER (2400MHz + CHANNEL_NUMBER MHz)
+	//   - data rate : nRF24_RATE
 	//   - CRC scheme: 2 byte
 
     // The transmitter sends a data packets to the three logic addresses without Auto-ACK (ShockBurst disabled)
@@ -595,10 +597,10 @@ int runRadio(void) {
     nRF24_DisableAA(0xFF);
 
     // Set RF channel
-    nRF24_SetRFChannel(115);
+    nRF24_SetRFChannel(CHANNEL_NUMBER);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_250kbps);
+    nRF24_SetDataRate(nRF24_RATE);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -698,17 +700,17 @@ int runRadio(void) {
     // This is simple receiver with Enhanced ShockBurst:
     //   - RX address: 'ESB'
     //   - payload: 10 bytes
-    //   - RF channel: 40 (2440MHz)
-    //   - data rate: 2Mbps
+	//   - RF channel: CHANNEL_NUMBER (2400MHz + CHANNEL_NUMBER MHz)
+	//   - data rate : nRF24_RATE
     //   - CRC scheme: 2 byte
 
     // The transmitter sends a 10-byte packets to the address 'ESB' with Auto-ACK (ShockBurst enabled)
 
     // Set RF channel
-    nRF24_SetRFChannel(40);
+    nRF24_SetRFChannel(CHANNEL_NUMBER);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_2Mbps);
+    nRF24_SetDataRate(nRF24_RATE);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -774,17 +776,17 @@ int runRadio(void) {
 	// This is simple receiver with Enhanced ShockBurst:
 	//   - RX address: 'ESB'
 	//   - payload: 10 bytes
-	//   - RF channel: 40 (2440MHz)
-	//   - data rate: 2Mbps
+	//   - RF channel: CHANNEL_NUMBER (2400MHz + CHANNEL_NUMBER MHz)
+	//   - data rate : nRF24_RATE
 	//   - CRC scheme: 2 byte
 
     // The transmitter sends a 10-byte packets to the address 'ESB' with Auto-ACK (ShockBurst enabled)
 
     // Set RF channel
-    nRF24_SetRFChannel(40);
+    nRF24_SetRFChannel(CHANNEL_NUMBER);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_2Mbps);
+    nRF24_SetDataRate(nRF24_RATE);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -850,17 +852,17 @@ int runRadio(void) {
 	// This is simple transmitter with Enhanced ShockBurst (to one logic address):
 	//   - TX address: 'ESB'
 	//   - payload: 10 bytes
-	//   - RF channel: 40 (2440MHz)
-	//   - data rate: 2Mbps
+	//   - RF channel: CHANNEL_NUMBER (2400MHz + CHANNEL_NUMBER MHz)
+	//   - data rate : nRF24_RATE
 	//   - CRC scheme: 2 byte
 
     // The transmitter sends a 10-byte packets to the address 'ESB' with Auto-ACK (ShockBurst enabled)
 
     // Set RF channel
-    nRF24_SetRFChannel(40);
+    nRF24_SetRFChannel(CHANNEL_NUMBER);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_2Mbps);
+    nRF24_SetDataRate(nRF24_RATE);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);
@@ -960,17 +962,17 @@ int runRadio(void) {
 	// This is simple transmitter with Enhanced ShockBurst (to one logic address):
 	//   - TX address: 'ESB'
 	//   - payload: 10 bytes
-	//   - RF channel: 40 (2440MHz)
-	//   - data rate: 2Mbps
+	//   - RF channel: CHANNEL_NUMBER (2400MHz + CHANNEL_NUMBER MHz)
+	//   - data rate : nRF24_RATE
 	//   - CRC scheme: 2 byte
 
     // The transmitter sends a 10-byte packets to the address 'ESB' with Auto-ACK (ShockBurst enabled)
 
     // Set RF channel
-    nRF24_SetRFChannel(40);
+    nRF24_SetRFChannel(CHANNEL_NUMBER);
 
     // Set data rate
-    nRF24_SetDataRate(nRF24_DR_2Mbps);
+    nRF24_SetDataRate(nRF24_RATE);
 
     // Set CRC scheme
     nRF24_SetCRCScheme(nRF24_CRC_2byte);

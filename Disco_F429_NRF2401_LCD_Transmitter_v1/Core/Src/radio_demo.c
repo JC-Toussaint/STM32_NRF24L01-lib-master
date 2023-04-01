@@ -178,8 +178,6 @@ nRF24_TXResult nRF24_TransmitPacket(uint8_t *pBuf, uint8_t length) {
 
 #endif // DEMO_TX_
 
-
-
 int runRadio(void) {
 	UART_SendStr("\r\nDiscoF429 is online.\r\n");
 
