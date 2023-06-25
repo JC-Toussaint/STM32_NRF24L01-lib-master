@@ -1,0 +1,14 @@
+dp83848.c:63:10:DP83848_RegisterBusIO	5
+dp83848.c:88:10:DP83848_Init	15
+dp83848.c:188:9:DP83848_DeInit	4
+dp83848.c:213:9:DP83848_DisablePowerDownMode	3
+dp83848.c:243:9:DP83848_EnablePowerDownMode	3
+dp83848.c:273:9:DP83848_StartAutoNego	3
+dp83848.c:309:9:DP83848_GetLinkState	15
+dp83848.c:401:9:DP83848_SetLinkState	7
+dp83848.c:453:9:DP83848_EnableLoopbackMode	3
+dp83848.c:483:9:DP83848_DisableLoopbackMode	3
+dp83848.c:523:9:DP83848_EnableIT	3
+dp83848.c:563:9:DP83848_DisableIT	3
+dp83848.c:602:10:DP83848_ClearIT	2
+dp83848.c:632:9:DP83848_GetITStatus	2

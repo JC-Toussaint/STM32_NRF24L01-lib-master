@@ -1017,13 +1017,23 @@ int runRadio(void) {
     while (1) {
 // #pragma clang diagnostic pop
 
+    	/*
 		payload_length = (uint8_t)(2 + (j + j /10)% 7);
-
 		// Prepare data packet
     	for (i = 0; i < payload_length; i++) {
     		nRF24_payload[i] = (uint8_t) j++;
     		if (j > 0x000000FF) j = 0;
     	}
+    	*/
+
+
+		payload_length = 8;
+    	for (i = 0; i < payload_length; i++) {
+    		nRF24_payload[i] = (uint8_t) 0;
+    	}
+		j++;
+		if (j>=payload_length) j=0;
+		nRF24_payload[j] =0xFA;
 
     	// Print a payload
     	UART_SendStr("PAYLOAD:>");
@@ -1061,7 +1071,7 @@ int runRadio(void) {
 		UART_SendStr("\r\n");
 
     	// Wait ~0.5s
-    	Delay_ms(500);
+    	//Delay_ms(500);
 		Toggle_LED();
     }
 

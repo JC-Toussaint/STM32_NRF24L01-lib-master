@@ -1,0 +1,11 @@
+../Core/Inc/support.h:15:20:nRF24_CE_L	8	static
+../Core/Inc/support.h:20:20:nRF24_CE_H	8	static
+../Core/Inc/support.h:46:20:Delay_ms	16	static
+../Core/Src/radio_demo.c:17:6:UART_SendChar	16	static
+../Core/Src/radio_demo.c:21:6:UART_SendStr	16	static
+../Core/Src/radio_demo.c:25:6:Toggle_LED	8	static
+../Core/Src/radio_demo.c:48:6:UART_SendBufHex	24	static
+../Core/Src/radio_demo.c:57:6:UART_SendHex8	16	static
+../Core/Src/radio_demo.c:62:6:UART_SendInt	32	static
+../Core/Src/radio_demo.c:123:16:nRF24_TransmitPacket	24	static
+../Core/Src/radio_demo.c:181:5:runRadio	88	static
